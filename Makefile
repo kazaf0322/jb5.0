@@ -1,6 +1,6 @@
 .PHONY: payload/payload.dylib
 
-shellcode.bin: shellcode.s payload/payload.dylib Makefile
+shellcode.bin: shellcode.s payload.dylib Makefile2
 	#aarch64-linux-gnu-as -EL -o shellcode.o shellcode.s
 	#aarch64-linux-gnu-objcopy -O binary shellcode.o shellcode.bin
 	as -arch arm64 shellcode.s -o shellcode.o
@@ -9,8 +9,8 @@ shellcode.bin: shellcode.s payload/payload.dylib Makefile
 	dd if=/dev/zero of=shellcode.bin bs=1 count=1 seek=4095
 	cat payload/payload.dylib >> shellcode.bin
 
-shellcode.s: shellcode.in.s payload/payload.dylib Makefile
+shellcode.s: shellcode.in.s payload.dylib Makefile2
 	python2 gen_shellcode.py
 
-payload/payload.dylib:
-	cd payload && make
+payload.dylib:
+	makefile2
